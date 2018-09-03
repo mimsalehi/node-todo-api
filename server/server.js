@@ -6,7 +6,7 @@ var {mongoose} = require('./db/mongoose')
 var {ObjectID} = require('mongodb')
 var {Todo} = require('./models/todo')
 var {User} = require('./models/user')
-
+var {authenticate} = require('./middleware/authenticate')
 var app = express();
 
 app.use(bodyParser.json())
@@ -91,6 +91,12 @@ app.patch('/todos/:id', (req, res)=>{
     }).catch((e)=>{
         res.status(404).send();
     })
+})
+
+
+// User Profile
+app.get('/user/me', authenticate, (req, res)=>{
+    res.send(req.user)
 })
 
 // POST /users
